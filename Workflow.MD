@@ -49,9 +49,7 @@ Municipality receives a report (as before), but now:
 - reporter_name-------------------String ---------------------Name of the person reporting
 - reporter_contact----------------String --------------------Email or phone number(for follow-up)
 - latitude------------------------Float --------------------------GPS latitude from device
-- longitude-------------------------Float --------------------------GPS longitude from device
-- Field Name------------------------Type---------------------------Description	
-- reporter_name--------------------String--------------------------Name of the person reporting
+- longitude-------------------------Float --------------------------GPS longitude from device	
 - location_description------------String--------------------------Nearby landmark or address
 - severity------------------------Enum----------------------------------e.g. Low / Medium / High
 - description------------------String------------------------------------Text field with more details
