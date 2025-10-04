@@ -14,7 +14,7 @@ NASA’s GPM (Global Precipitation Measurement) provides near real-time global r
 - Identify areas with:
 - Very low rainfall (water scarce)
 - Irregular rainfall patterns (risk of drought or water insecurity)
-- Overlay these zones on your leak report map to highlight:
+##### Overlay these zones on your leak report map to highlight:
 - High leak density + low rainfall = critical zone
 - Low leak density + high rainfall = lower priority
 
