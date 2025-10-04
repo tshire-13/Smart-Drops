@@ -154,7 +154,7 @@ type Municipality = {
     e.preventDefault();
     
     // Basic validation
-    if (!formData.reporterName || !formData.reporterEmail || !formData.reporterContactNo || !formData.severity || !formData.description) {
+    if (!formData.reporterName || !formData.reporterEmail || !formData.reporterContactNo || !formData.description) {
       toast({
         title: "Missing information",
         description: "Please fill in all required fields.",
@@ -255,13 +255,13 @@ type Municipality = {
               <div className="space-y-4">
                 <div>
                   <Label className="flex items-center gap-2">
-
                     <MapPin className="w-4 h-4" />
                     GPS Coordinates
                   </Label>
                   <div className="grid grid-cols-2 gap-2 mt-2">
                     <Input
                       value={formData.latitude}
+                      name="latitude"
                       onChange={(e) =>
                         setFormData({ ...formData, latitude: e.target.value })
                       }
@@ -270,6 +270,7 @@ type Municipality = {
                     />
                     <Input
                       value={formData.longitude}
+                      name="longitude"
                       onChange={(e) =>
                         setFormData({ ...formData, longitude: e.target.value })
                       }
@@ -294,6 +295,7 @@ type Municipality = {
                   <Textarea
                     id="locationDescription"
                     value={formData.locationDescription}
+                    name="location_description"
                     onChange={(e) =>
                       setFormData({ ...formData, locationDescription: e.target.value })
                     }
@@ -308,6 +310,7 @@ type Municipality = {
                 <Label htmlFor="severity">Severity *</Label>
                 <Select
                   value={formData.severity}
+                  name="severity"
                   onValueChange={(value) =>
                     setFormData({ ...formData, severity: value })
                   }
@@ -329,6 +332,7 @@ type Municipality = {
                 <Textarea
                   id="description"
                   value={formData.description}
+                  name="description"
                   onChange={(e) =>
                     setFormData({ ...formData, description: e.target.value })
                   }
@@ -342,6 +346,7 @@ type Municipality = {
                 <Label htmlFor="Municipality">Municipality *</Label>
                 <Select
                   value={formData.severity}
+                  name="municipality"
                   onValueChange={(value) =>
                     setFormData({ ...formData, severity: value })
                   }
