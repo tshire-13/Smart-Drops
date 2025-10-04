@@ -31,10 +31,7 @@ export const submitForm  = async(req,res)=> {
             phone: Mnumber
         }, {merge: true})
 
-
-
-
-
+       res.status(200).json({message: "Form submitted successfully"})
 
     }catch(err){
         return res.status(500).json({message: "Server error"})
