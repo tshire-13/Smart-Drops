@@ -1,17 +1,18 @@
 import {app} from '../utils/firebase.js'
 import { doc, setDoc, updateDoc, arrayUnion, getFirestore, getDoc } from 'firebase/firestore'
 import AWS from "aws-sdk";
-import multer from "multer";
+import multer from "multer"
+import {Resend} from "resend"
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_REGION,
 });
 
 export const upload = multer({ storage: multer.memoryStorage() })
-
-
 
 export const submitForm  = async(req,res)=> {
 
@@ -30,20 +31,21 @@ export const submitForm  = async(req,res)=> {
     }
 
     try{
-          const params = {
+     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: Date.now() + "-" + req.file.originalname, // unique file name
       Body: req.file.buffer,
-      ContentType: req.file.mimetype,
-      ACL: "public-read",}
-      const uploadResult = await s3.upload(params).promise()
+      ContentType: req.file.mimetype,}
 
-      image_url = uploadResult.Location
+      await s3.upload(params).promise()
+
+     image_url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
+
 
         const docRef = doc(db, "users", timestamp)
         await setDoc(docRef, {
             name, email, number, location_description,
-            severity, description, image_url, latitude,
+            severity, description, latitude, image_url,
             longitude, timestamp
         })
 
@@ -52,6 +54,23 @@ export const submitForm  = async(req,res)=> {
             email: Memail,
             phone: Mnumber
         }, {merge: true})
+
+          const { data, error } = await resend.emails.send({
+            from: 'Acme <onboarding@resend.dev>',
+            to: Memail,
+             subject: `[ALERT] Leak detected — ${severity || "unknown"}`,
+            html:`
+            <h2 style="color:#c62828">Leak Detected</h2>
+            <p><b>Location:</b> ${location || "unknown"}</p>
+            <p><b>Severity:</b> ${severity || "unknown"}</p>
+            <p><b>Time:</b> ${time}</p>
+            <p><b>Details:</b> ${details || "N/A"}</p>
+      `
+        })
+        if (error) {
+          console.error('Error sending email:', error);
+        }
+
 
        res.status(200).json({message: "Form submitted successfully"})
 

@@ -5,6 +5,7 @@ import router from './router/router.js'
 
 const PORT = process.env.PORT || 1000
 
+
 app.use(express.json())
 app.use('/api', router)
 

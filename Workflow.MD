@@ -23,8 +23,7 @@ NASA’s GPM (Global Precipitation Measurement) provides near real-time global r
 - Save it to database and images to AWS S3 bucket
 - Fetch or pre-process NASA GPM rainfall data (monthly averages)
 ### Associate rainfall levels with each municipality or region
-- Option A: Store this rainfall level directly in your database
-- Option B: Query it dynamically in the dashboard layer
+- Query it dynamically in the dashboard layer
 ###  Analysis & Prioritization
 - Combine leak density (how many reports in an area)
 - Combine Leak severity (reported level + image analysis in future)
