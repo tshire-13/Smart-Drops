@@ -38,6 +38,8 @@ export const submitForm  = async(req,res)=> {
       ACL: "public-read",}
       const uploadResult = await s3.upload(params).promise()
 
+      image_url = uploadResult.Location
+
         const docRef = doc(db, "users", timestamp)
         await setDoc(docRef, {
             name, email, number, location_description,
