@@ -17,7 +17,7 @@ const Landing = () => {
                 <Droplet className="w-12 h-12 text-secondary-foreground" />
               </div>
             </div>
-            <h1 className="text-5xl font-bold">LeakWatch</h1>
+            <h1 className="text-5xl font-bold">Smart Drop</h1>
             <p className="text-xl text-primary-foreground/90">
               Empowering communities to report and track water leaks in real-time
             </p>
@@ -124,7 +124,7 @@ const Landing = () => {
       {/* Footer */}
       <footer className="bg-primary text-primary-foreground py-8">
         <div className="container mx-auto px-4 text-center">
-          <p>&copy; 2025 LeakWatch. Protecting water resources, one report at a time.</p>
+          <p>&copy; 2025 Smart Drop. Protecting water resources, one report at a time.</p>
         </div>
       </footer>
     </div>

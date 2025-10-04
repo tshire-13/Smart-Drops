@@ -1,0 +1,28 @@
+{
+    "municipalities": [
+        {
+            "name": "Rustenburg Local Municipality",
+            "address": "159 Nelson Mandela & Beyers Naude Streets, Rustenburg",
+            "phone": "014 590 3111",
+            "emails": {
+                "water": "zmateta@rustenburg.gov.za"
+            }
+        },
+        {
+            "name": "Madibeng Local Municipality",
+            "address": "53 Van Velden Street, Brits; PO Box 106, Brits, 0250",
+            "phone": "012 318 9100",
+            "emails": {
+                "customer_care": "customercare@madibeng.gov.za"
+            }
+        },
+        {
+            "name": "Moses Kotane Local Municipality",
+            "address": "Stand No.933, Station Road, Unit 3, Mogwase Shopping Complex, Mogwase; Private Bag X1011, Mogwase, 0314",
+            "phone": "014 555 1300 / 014 004 0002",
+            "emails": {
+                "customer_care": "customercare@moseskotane.gov.za"
+            }
+        }
+    ]
+}
