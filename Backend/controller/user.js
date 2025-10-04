@@ -11,8 +11,6 @@ const s3 = new AWS.S3({
 
 export const upload = multer({ storage: multer.memoryStorage() })
 
-
-
 export const submitForm  = async(req,res)=> {
 
     const db = getFirestore(app)
@@ -30,10 +28,21 @@ export const submitForm  = async(req,res)=> {
     }
 
     try{
+     const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: Date.now() + "-" + req.file.originalname, // unique file name
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,}
+
+      await s3.upload(params).promise()
+
+     image_url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
+
+
         const docRef = doc(db, "users", timestamp)
         await setDoc(docRef, {
             name, email, number, location_description,
-            severity, description, latitude,
+            severity, description, latitude, image_url,
             longitude, timestamp
         })
 
@@ -47,24 +56,5 @@ export const submitForm  = async(req,res)=> {
 
     }catch(err){
         return res.status(500).json({message: "Server error"})
-    }
-}
-
-export const uploadImage  = async(req,res)=> {
-    try{
-     const params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: Date.now() + "-" + req.file.originalname, // unique file name
-      Body: req.file.buffer,
-      ContentType: req.file.mimetype,}
-
-      await s3.upload(params).promise()
-      
-      const imageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
-
-
-         res.status(200).json({image_url: imageUrl})
-    }catch(err){
-        return res.status(500).json({message: "Server error" + err.message})
     }
 }
