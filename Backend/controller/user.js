@@ -1,5 +1,5 @@
 import {app} from '../utils/firebase.js'
-import { doc, setDoc, updateDoc, getFirestore, getDoc } from 'firebase/firestore'
+import { doc, setDoc, collection, getFirestore, getDocs } from 'firebase/firestore'
 import AWS from "aws-sdk";
 import multer from "multer"
 import {Resend} from "resend"
@@ -80,16 +80,34 @@ export const submitForm  = async(req,res)=> {
 }
 
 export const getData = async(req,res)=> {
+  console.log("get data called")
     const db = getFirestore(app)
-    const docRef = doc(db, "municipalities")
+    const querySnapshot_Min = await getDocs(collection(db, "municipalities"))
+    const querySnapshot_Users = await getDocs(collection(db, "users"))
    try{
-     const docSnap = await getDoc(docRef)
-
-    if (docSnap.exists()) {
-        res.status(200).json(docSnap.data())
-    } else {
-        res.status(404).json({message: "No data found"})
-    }
+     const municipalities = querySnapshot_Min.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }))
+    const users = querySnapshot_Users.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) 
+  const joinedData = users
+    .filter((user) =>
+      municipalities.some((mun) => mun.id === user.timestamp)
+    )
+    .map((user) => {
+      const municipality = municipalities.find(
+        (mun) => mun.id === user.timestamp
+      );
+      return {
+        ...user,
+        municipalityName: municipality?.name,
+        municipalityData: municipality,
+      };
+    });
+    return res.status(200).json(joinedData)
    }catch(err){
     return res.status(500).json({message: "Server error "+ err})
    }
