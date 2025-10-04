@@ -342,25 +342,6 @@ type Municipality = {
                 />
               </div>
               {/* Municipality */}
-              {/* <div>
-                <Label htmlFor="Municipality">Municipality *</Label>
-                <Select
-                  value={formData.severity}
-                  name="municipality"
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, severity: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Municipality" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Rustenburg Local Municipality">Rustenburg Local Municipality</SelectItem>
-                    
-                  </SelectContent>
-                </Select>
-              </div> */}
-
       <div style={{ padding: "20px" }}>
       <Label htmlFor="Municipality">Municipality *</Label> <br />
       <select
