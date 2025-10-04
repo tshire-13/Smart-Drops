@@ -36,7 +36,7 @@ const getSeverityColor = (severity: string) => {
 const LeakMap = ({ leaks, onMarkFixed }: LeakMapProps) => {
   const center: [number, number] = leaks.length > 0 
     ? [leaks[0].latitude, leaks[0].longitude]
-    : [40.7128, -74.0060]; // Default to NYC
+    : [-25.6651, 27.2416]; 
 
   return (
     <div className="w-full h-[600px] rounded-lg overflow-hidden border">

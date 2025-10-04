@@ -177,33 +177,9 @@ type Municipality = {
     return;
   }
 
-  try {
-    const formToSend = new FormData();
-
-    // Append text fields
-    Object.entries(formData).forEach(([key, value]) => {
-      formToSend.append(key, value);
-    });
-
-    // Append the image file if uploaded
-    if (fileInputRef.current?.files?.[0]) {
-      formToSend.append("image", fileInputRef.current.files[0]);
-    } else if (image) {
-      // If captured from camera, convert base64 to Blob
-      const res = await fetch(image);
-      const blob = await res.blob();
-      formToSend.append("image", blob, `leak-${Date.now()}.jpg`);
-    }
-
-    const response = await fetch("http://localhost:2025/api/submit", {
-      method: "POST",
-      body: formToSend,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
-    }
-
+    // In production, this would send to backend
+    console.log("Form submitted:", { ...formData, image });
+    
     toast({
       title: "Report submitted!",
       description: "Thank you for helping protect our water resources.",
@@ -351,14 +327,15 @@ type Municipality = {
                   onValueChange={(value) =>
                     setFormData({ ...formData, severity: value })
                   }
+                  
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select severity level" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="High">High - Major leak</SelectItem>
-                    <SelectItem value="Medium">Medium - Moderate leak</SelectItem>
-                    <SelectItem value="Low">Low - Minor leak</SelectItem>
+                    <SelectItem value="High">🔴 High - Major leak</SelectItem>
+                    <SelectItem value="Medium">🟠 Medium - Moderate leak</SelectItem>
+                    <SelectItem value="Low">🟡 Low - Minor leak</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -378,6 +355,7 @@ type Municipality = {
                   required
                 />
               </div>
+
               {/* Municipality */}
       <div style={{ padding: "20px" }}>
       <Label htmlFor="Municipality">Municipality *</Label> <br />
