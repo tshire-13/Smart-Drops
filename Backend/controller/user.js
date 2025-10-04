@@ -59,3 +59,18 @@ export const submitForm  = async(req,res)=> {
         return res.status(500).json({message: "Server error"})
     }
 }
+
+export const uploadImage  = async(req,res)=> {
+    try{
+          const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: Date.now() + "-" + req.file.originalname, // unique file name
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+      ACL: "public-read",}
+      const uploadResult = await s3.upload(params).promise()
+         res.status(200).json({imageUrl: uploadResult.Location})
+    }catch(err){
+        return res.status(500).json({message: "Server error"})
+    }
+}
