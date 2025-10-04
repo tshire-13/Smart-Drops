@@ -1,8 +1,17 @@
 import {app} from '../utils/firebase.js'
 import { doc, setDoc, updateDoc, arrayUnion, getFirestore, getDoc } from 'firebase/firestore'
-import multer from "multer"
-import multerS3 from 'multer-s3'
-import s3Client from '../utils/aws.js'
+import AWS from "aws-sdk";
+import multer from "multer";
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+export const upload = multer({ storage: multer.memoryStorage() })
+
+
 
 export const submitForm  = async(req,res)=> {
 
@@ -21,6 +30,14 @@ export const submitForm  = async(req,res)=> {
     }
 
     try{
+          const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: Date.now() + "-" + req.file.originalname, // unique file name
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+      ACL: "public-read",}
+      const uploadResult = await s3.upload(params).promise()
+
         const docRef = doc(db, "users", timestamp)
         await setDoc(docRef, {
             name, email, number, location_description,
