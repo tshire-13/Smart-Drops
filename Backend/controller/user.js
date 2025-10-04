@@ -103,11 +103,10 @@ export const getData = async(req,res)=> {
         (mun) => mun.id === user.timestamp
       );
       return {
-        ...user,
         municipalityName: municipality?.name,
         municipalityData: municipality,
-      };
-    });
+      }
+    })
     return res.status(200).json(joinedData)
    }catch(err){
     return res.status(500).json({message: "Server error "+ err})
