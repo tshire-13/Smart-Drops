@@ -1,8 +1,9 @@
 import express from 'express'
 const router = express.Router()
-import { submitForm, upload } from '../controller/user.js'
+import { submitForm, upload, uploadImage } from '../controller/user.js'
 
-router.post('/submit', upload.single("image"),submitForm)
+router.post('/submit',submitForm)
+router.post('/upload', upload.single("image"),uploadImage)
 
 
 export default router
