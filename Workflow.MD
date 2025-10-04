@@ -55,11 +55,9 @@ Municipality receives a report (as before), but now:
 - description------------------String------------------------------------Text field with more details
 - image_url--------------------Array-----------------------------------Link to uploaded image on S3
 - timestamp-------------------DateTime----------------------------------When the report was submitted
-- municipality_id----------------String----------------------------------Foreign key from municipality table
 
 2. #### Municipality table
 ##### Field Name-------------------Type-------------Description
-- municipality_id-------------------String------------Unique identifier (e.g. demarcation code)
 - name----------------------------String-------------Name of the municipality (e.g. eThekwini)
 - province---------------------String------------------Province name
 - email_alert--------------------String-------------Email address of official contact
