@@ -12,7 +12,10 @@ const s3 = new AWS.S3({
   region: process.env.AWS_REGION,
 });
 
-export const upload = multer({ storage: multer.memoryStorage() })
+export const upload = multer({
+   storage: multer.memoryStorage(),
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+ })
 
 export const submitForm  = async(req,res)=> {
 
@@ -20,40 +23,59 @@ export const submitForm  = async(req,res)=> {
     const now = new Date();
     const timestamp = now.toISOString();
 
-    const {reporterName, reporterEmail, reporterContactNo, locationDescription, 
-        severity, description, image, latitude, longitude, 
-        name, emails, number
-    } = req.body
+   const {
+    reporterName,
+    reporterEmail,
+    reporterContactNo,
+    locationDescription,
+    severity,
+    description,
+    latitude,
+    longitude,
+    name,
+    emails,
+    number,
+  } = req.body;
 
 
-    if(!reporterName || !reporterEmail || !reporterContactNo || !locationDescription || !severity || !description || !image || !latitude || !longitude){
+    if(!reporterName || !reporterEmail || !reporterContactNo || 
+      !locationDescription || !severity || !description || !req.file || !latitude || !longitude){
         return res.status(400).json({message: "All fields are required"})
     }
 
     try{
      const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: Date.now() + "-" + req.file.originalname, // unique file name
+      Key: `${Date.now()}-${req.file.originalname}`,
       Body: req.file.buffer,
-      ContentType: req.file.mimetype,}
+      ContentType: req.file.mimetype,
+    }
 
-      await s3.upload(params).promise()
+     const uploadResult = await s3.upload(params).promise();
+     const imageUrl = uploadResult.Location
 
-     image = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
-
-
-        const docRef = doc(db, "users", timestamp)
-        await setDoc(docRef, {
-            reporterName, reporterEmail, reporterContactNo, locationDescription,
-            severity, description, latitude, image,
-            longitude, timestamp
+         await setDoc(doc(db, "users", timestamp), {
+          reporterName,
+          reporterEmail,
+          reporterContactNo,
+          locationDescription,
+          severity,
+          description,
+          latitude,
+          longitude,
+          image: imageUrl,
+          timestamp,
         })
 
-        await setDoc(doc(db, "municipalities", timestamp), {
-            name,
-            email: emails,
-            phone: number
-        }, {merge: true})
+          await setDoc(
+      doc(db, "municipalities", timestamp),
+      {
+        name,
+        emails,
+        phone: number,
+      },
+      { merge: true }
+    )
 
           const { data, error } = await resend.emails.send({
             from: 'Acme <onboarding@resend.dev>',

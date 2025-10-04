@@ -150,40 +150,60 @@ type Municipality = {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Basic validation
-    if (!formData.reporterName || !formData.reporterEmail || !formData.reporterContactNo || !formData.description) {
-      toast({
-        title: "Missing information",
-        description: "Please fill in all required fields.",
-        variant: "destructive",
-      });
-      return;
+  const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+
+  // Basic validation
+  if (
+    !formData.reporterName ||
+    !formData.reporterEmail ||
+    !formData.reporterContactNo ||
+    !formData.description
+  ) {
+    toast({
+      title: "Missing information",
+      description: "Please fill in all required fields.",
+      variant: "destructive",
+    });
+    return;
+  }
+
+  if (!image && !fileInputRef.current?.files?.[0]) {
+    toast({
+      title: "Photo required",
+      description: "Please take or upload a photo of the leak.",
+      variant: "destructive",
+    });
+    return;
+  }
+
+  try {
+    const formToSend = new FormData();
+
+    // Append text fields
+    Object.entries(formData).forEach(([key, value]) => {
+      formToSend.append(key, value);
+    });
+
+    // Append the image file if uploaded
+    if (fileInputRef.current?.files?.[0]) {
+      formToSend.append("image", fileInputRef.current.files[0]);
+    } else if (image) {
+      // If captured from camera, convert base64 to Blob
+      const res = await fetch(image);
+      const blob = await res.blob();
+      formToSend.append("image", blob, `leak-${Date.now()}.jpg`);
     }
 
-    if (!image) {
-      toast({
-        title: "Photo required",
-        description: "Please take or upload a photo of the leak.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // In production, this would send to backend
-    console.log("Form submitted:", { ...formData, image });
-
-     fetch("http://localhost:2025/api/submit", {
+    const response = await fetch("http://localhost:2025/api/submit", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...formData, image }),
-    })
+      body: formToSend,
+    });
 
-    
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
+    }
+
     toast({
       title: "Report submitted!",
       description: "Thank you for helping protect our water resources.",
@@ -193,6 +213,14 @@ type Municipality = {
     setTimeout(() => {
       navigate("/");
     }, 2000);
+  } catch (error) {
+    console.error(error);
+    toast({
+      title: "Submission failed",
+      description: error.message || "Something went wrong",
+      variant: "destructive",
+    });
+  }
   };
 
   return (
@@ -328,9 +356,9 @@ type Municipality = {
                     <SelectValue placeholder="Select severity level" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="High">🔴 High - Major leak</SelectItem>
-                    <SelectItem value="Medium">🟠 Medium - Moderate leak</SelectItem>
-                    <SelectItem value="Low">🟡 Low - Minor leak</SelectItem>
+                    <SelectItem value="High">High - Major leak</SelectItem>
+                    <SelectItem value="Medium">Medium - Moderate leak</SelectItem>
+                    <SelectItem value="Low">Low - Minor leak</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
