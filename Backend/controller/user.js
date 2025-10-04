@@ -55,7 +55,6 @@ export const submitForm  = async(req,res)=> {
             phone: Mnumber
         }, {merge: true})
 
-
           const { data, error } = await resend.emails.send({
             from: 'Acme <onboarding@resend.dev>',
             to: Memail,
