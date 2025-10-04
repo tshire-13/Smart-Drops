@@ -1,5 +1,5 @@
 import {app} from '../utils/firebase.js'
-import { doc, setDoc, updateDoc, arrayUnion, getFirestore, getDoc } from 'firebase/firestore'
+import { doc, setDoc, collection, getFirestore, getDocs, getDoc } from 'firebase/firestore'
 import AWS from "aws-sdk";
 import multer from "multer"
 import {Resend} from "resend"
@@ -76,5 +76,63 @@ export const submitForm  = async(req,res)=> {
 
     }catch(err){
         return res.status(500).json({message: "Server error"})
+    }
+}
+
+export const getData = async(req,res)=> {
+  console.log("get data called")
+    const db = getFirestore(app)
+    const querySnapshot_Min = await getDocs(collection(db, "municipalities"))
+    const querySnapshot_Users = await getDocs(collection(db, "users"))
+   try{
+     const municipalities = querySnapshot_Min.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }))
+    const users = querySnapshot_Users.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) 
+  
+  const joinedData = users
+    .filter((user) =>
+      municipalities.some((mun) => mun.id === user.timestamp)
+    )
+    .map((user) => {
+      const municipality = municipalities.find(
+        (mun) => mun.id === user.timestamp
+      )
+      // Name of reporter
+      // Location description
+      // Severity
+      // Reported date
+
+      return {
+        name: user.name,
+        location_description: user.location_description,
+        severity: user.severity,
+        timestamp: user.timestamp,
+        
+      }
+    })
+    return res.status(200).json(joinedData)
+   }catch(err){
+    return res.status(500).json({message: "Server error "+ err})
+   }
+    
+}
+
+export const getSingleData = async(req,res)=> {
+    const db = getFirestore(app)
+    const {id} = req.params
+    try{
+        const docRef = doc(db, "users", id)
+        const docSnap = await getDoc(docRef)
+        if(!docSnap.exists()){
+            return res.status(404).json({message: "Data not found"})
+        }
+        return res.status(200).json(docSnap.data())
+    }catch(err){
+        return res.status(500).json({message: "Server error " + err})
     }
 }
