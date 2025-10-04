@@ -82,6 +82,15 @@ const Landing = () => {
             </CardHeader>
           </Card>
         </div>
+          <Card className="w-200 mar-10">
+            <CardHeader>
+              <CardTitle>Stats</CardTitle>
+              <CardDescription>
+               <img src="../public/bokeh_plot.png" alt="" className="w-100 h-100"/>
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
       </section>
 
       {/* Stats Section */}
