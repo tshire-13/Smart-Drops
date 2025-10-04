@@ -1,5 +1,5 @@
 import {app} from '../utils/firebase.js'
-import { doc, setDoc, collection, getFirestore, getDocs } from 'firebase/firestore'
+import { doc, setDoc, collection, getFirestore, getDocs, getDoc } from 'firebase/firestore'
 import AWS from "aws-sdk";
 import multer from "multer"
 import {Resend} from "resend"
@@ -133,6 +133,6 @@ export const getSingleData = async(req,res)=> {
         }
         return res.status(200).json(docSnap.data())
     }catch(err){
-        return res.status(500).json({message: "Server error"})
+        return res.status(500).json({message: "Server error " + err})
     }
 }
