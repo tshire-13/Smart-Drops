@@ -10,4 +10,4 @@ const firebaseConfig = {
   appId: process.env.APP_ID
 }
 
-export default app = initializeApp(firebaseConfig)
+export const app = initializeApp(firebaseConfig)

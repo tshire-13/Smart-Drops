@@ -1,4 +1,4 @@
-import app from '../utils/firebase.js'
+import {app} from '../utils/firebase.js'
 import { doc, setDoc, updateDoc, arrayUnion, getFirestore, getDoc } from 'firebase/firestore'
 
 export const submitForm  = async(req,res)=> {
