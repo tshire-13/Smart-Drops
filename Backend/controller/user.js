@@ -93,6 +93,7 @@ export const getData = async(req,res)=> {
     id: doc.id,
     ...doc.data(),
   })) 
+  
   const joinedData = users
     .filter((user) =>
       municipalities.some((mun) => mun.id === user.timestamp)
