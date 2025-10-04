@@ -59,10 +59,12 @@ export const uploadImage  = async(req,res)=> {
       Body: req.file.buffer,
       ContentType: req.file.mimetype,}
 
-      const uploadResult = await s3.upload(params).promise()
+      await s3.upload(params).promise()
       
+      const imageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
 
-         res.status(200).json({image_url: uploadResult.Location})
+
+         res.status(200).json({image_url: imageUrl})
     }catch(err){
         return res.status(500).json({message: "Server error" + err.message})
     }
