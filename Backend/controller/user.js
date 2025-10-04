@@ -68,6 +68,9 @@ export const submitForm  = async(req,res)=> {
             <p><b>Details:</b> ${details || "N/A"}</p>
       `
         })
+        if (error) {
+          console.error('Error sending email:', error);
+        }
 
 
        res.status(200).json({message: "Form submitted successfully"})
