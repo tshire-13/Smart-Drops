@@ -174,6 +174,15 @@ type Municipality = {
 
     // In production, this would send to backend
     console.log("Form submitted:", { ...formData, image });
+
+     fetch("http://localhost:2025/api/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...formData, image }),
+    })
+
     
     toast({
       title: "Report submitted!",

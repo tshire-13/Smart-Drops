@@ -20,13 +20,13 @@ export const submitForm  = async(req,res)=> {
     const now = new Date();
     const timestamp = now.toISOString();
 
-    const {name, email, number, location_description, 
-        severity, description, image_url, latitude, longitude, 
-        municipality, Memail, Mnumber
+    const {reporterName, reporterEmail, reporterContactNo, locationDescription, 
+        severity, description, image, latitude, longitude, 
+        name, emails, number
     } = req.body
 
 
-    if(!name || !email || !number || !location_description || !severity || !description || !image_url || !latitude || !longitude){
+    if(!reporterName || !reporterEmail || !reporterContactNo || !locationDescription || !severity || !description || !image || !latitude || !longitude){
         return res.status(400).json({message: "All fields are required"})
     }
 
@@ -39,20 +39,20 @@ export const submitForm  = async(req,res)=> {
 
       await s3.upload(params).promise()
 
-     image_url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
+     image = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${params.Key}`;
 
 
         const docRef = doc(db, "users", timestamp)
         await setDoc(docRef, {
-            name, email, number, location_description,
-            severity, description, latitude, image_url,
+            reporterName, reporterEmail, reporterContactNo, locationDescription,
+            severity, description, latitude, image,
             longitude, timestamp
         })
 
         await setDoc(doc(db, "municipalities", timestamp), {
-            name: municipality,
-            email: Memail,
-            phone: Mnumber
+            name,
+            email: emails,
+            phone: number
         }, {merge: true})
 
           const { data, error } = await resend.emails.send({
@@ -104,7 +104,7 @@ export const getData = async(req,res)=> {
       )
       return {
         name: user.name,
-        location_description: user.location_description,
+        location_description: user.locationDescription,
         severity: user.severity,
         timestamp: user.timestamp,
       }
