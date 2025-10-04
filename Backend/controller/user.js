@@ -1,4 +1,4 @@
-
+import app from '../utils/firebase.js'
 
 const submitForm  = async(req,res)=> {
 
@@ -7,6 +7,7 @@ const submitForm  = async(req,res)=> {
 
     const {name, email, number, location_description, 
         severity, description, image_url, latitude, longitude, 
+        province, pname, pemail, pnumber
     } = req.body
 
 
