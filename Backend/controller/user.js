@@ -4,7 +4,7 @@ import AWS from "aws-sdk";
 import multer from "multer";
 
 const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_REGION,
 });
@@ -52,17 +52,18 @@ export const submitForm  = async(req,res)=> {
 
 export const uploadImage  = async(req,res)=> {
     try{
+        console.log(process.env.AWS_BUCKET_NAME)
           const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: Date.now() + "-" + req.file.originalname, // unique file name
       Body: req.file.buffer,
-      ContentType: req.file.mimetype,
-      ACL: "public-read",}
+      ContentType: req.file.mimetype,}
 
       const uploadResult = await s3.upload(params).promise()
+      
 
          res.status(200).json({image_url: uploadResult.Location})
     }catch(err){
-        return res.status(500).json({message: "Server error"})
+        return res.status(500).json({message: "Server error" + err.message})
     }
 }
