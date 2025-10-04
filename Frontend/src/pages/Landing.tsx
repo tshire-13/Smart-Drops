@@ -2,9 +2,52 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Droplet, MapPin, ShieldCheck, Users, House } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import Papa from "papaparse";
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend } from "chart.js";
+
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
 
 const Landing = () => {
   const navigate = useNavigate();
+
+  type DataPoint = {
+  "Date": string;
+  "year": string;
+  "Precipretation": string;
+};
+
+  const [labels, setLabels] = useState<string[]>([]);
+  const [values, setValues] = useState<number[]>([]);
+
+  useEffect(() => {
+    Papa.parse<DataPoint>("/nasa-gpm.csv", {
+      header: true,
+      delimiter: ";",
+      download: true,
+      complete: (results) => {
+        const dates = results.data.map((row) => `${row.Date}-${row.year}`);
+        const vals = results.data.map((row) => parseFloat(row.Precipretation || "0"));
+        setLabels(dates);
+        setValues(vals);
+      },
+    });
+  }, []);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Precipitation (mm/day)",
+        data: values,
+        fill: false,
+        borderColor: "blue",
+        tension: 0.1,
+      },
+    ],
+  };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -96,9 +139,12 @@ const Landing = () => {
         </div>
           <Card className="w-200 mar-10">
             <CardHeader>
-              <CardTitle>Stats</CardTitle>
+              <CardTitle>Stats For RainFall</CardTitle>
               <CardDescription>
-               <img src="../public/bokeh_plot.png" alt="" className="w-100 h-100"/>
+               <div style={{ width: "100%", maxWidth: "900px", margin: "0 auto" }}>
+              <h2>Daily Precipitation (NASA GPM)</h2>
+              <Line data={data} />
+              </div>
               </CardDescription>
             </CardHeader>
           </Card>
