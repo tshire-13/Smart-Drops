@@ -1,7 +1,7 @@
 import app from '../utils/firebase.js'
 import { doc, setDoc, updateDoc, arrayUnion, getFirestore, getDoc } from 'firebase/firestore'
 
-const submitForm  = async(req,res)=> {
+export const submitForm  = async(req,res)=> {
 
     const db = getFirestore(app)
     const now = new Date();
