@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Droplet, MapPin, ShieldCheck, Users } from "lucide-react";
+import { Droplet, MapPin, ShieldCheck, Users, House } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
@@ -45,7 +45,7 @@ const Landing = () => {
       {/* Features Section */}
       <section className="container mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
           <Card>
             <CardHeader>
               <div className="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center mb-4">
@@ -70,12 +70,24 @@ const Landing = () => {
             </CardHeader>
           </Card>
 
+           <Card>
+            <CardHeader>
+              <div className="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center mb-4">
+                <House className="w-6 h-6 text-secondary" />
+              </div>
+              <CardTitle>3. Identify high and low risk areas</CardTitle>
+              <CardDescription>
+                Along with data received from NASA satellites, municipalities can identify areas with high and low rainfall to better allocate resources
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
           <Card>
             <CardHeader>
               <div className="w-12 h-12 bg-secondary/20 rounded-lg flex items-center justify-center mb-4">
                 <Users className="w-6 h-6 text-secondary" />
               </div>
-              <CardTitle>3. Fix</CardTitle>
+              <CardTitle>4. Fix</CardTitle>
               <CardDescription>
                 Repair crews respond efficiently and mark leaks as fixed when resolved
               </CardDescription>
@@ -86,8 +98,9 @@ const Landing = () => {
 
       {/* Stats Section */}
       <section className="bg-muted py-16">
+        <h2 className="text-3xl font-bold text-center mb-12">The Goal Is To Potentially:</h2>
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto text-center">
+          <div className="grid md:grid-cols-4 gap-8 max-w-4xl mx-auto text-center">
             <div>
               <div className="text-4xl font-bold text-primary mb-2">1.2M</div>
               <div className="text-muted-foreground">Gallons Saved Daily</div>
@@ -99,6 +112,10 @@ const Landing = () => {
             <div>
               <div className="text-4xl font-bold text-primary mb-2">95%</div>
               <div className="text-muted-foreground">Resolution Rate</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-primary mb-2">100%</div>
+              <div className="text-muted-foreground">Fair Resource Allocation</div>
             </div>
           </div>
         </div>
