@@ -1,7 +1,10 @@
 import {app} from '../utils/firebase.js'
 import { doc, setDoc, updateDoc, arrayUnion, getFirestore, getDoc } from 'firebase/firestore'
 import AWS from "aws-sdk";
-import multer from "multer";
+import multer from "multer"
+import {Resend} from "resend"
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY,
