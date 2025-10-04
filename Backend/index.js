@@ -1,9 +1,9 @@
 import express from 'express'
 export const app = express()
-import router from './routes/router.js'
 import 'dotenv/config'
+import router from './routes/router.js'
 
-PORT = process.env.PORT || 1000
+const PORT = process.env.PORT || 1000
 
 app.use(express.json())
 app.use('/api', router)
