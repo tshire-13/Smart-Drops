@@ -1,5 +1,6 @@
 import {app} from '../utils/firebase.js'
 import { doc, setDoc, updateDoc, arrayUnion, getFirestore, getDoc } from 'firebase/firestore'
+import multer from "multer"
 
 export const submitForm  = async(req,res)=> {
 
