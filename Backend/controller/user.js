@@ -121,3 +121,18 @@ export const getData = async(req,res)=> {
    }
     
 }
+
+export const getSingleData = async(req,res)=> {
+    const db = getFirestore(app)
+    const {id} = req.params
+    try{
+        const docRef = doc(db, "users", id)
+        const docSnap = await getDoc(docRef)
+        if(!docSnap.exists()){
+            return res.status(404).json({message: "Data not found"})
+        }
+        return res.status(200).json(docSnap.data())
+    }catch(err){
+        return res.status(500).json({message: "Server error"})
+    }
+}
