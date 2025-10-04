@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -54,7 +54,21 @@ const mockLeaks: Leak[] = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [leaks, setLeaks] = useState(mockLeaks);
+  const [leaks, setLeaks] = useState([]);
+
+  useEffect(()=> {
+    const response = fetch("http://localhost:2025/api/data")
+    .then(res => res.json())
+    .then(data => setLeaks(data))
+    .catch(err => {
+      console.error("Error fetching leaks:", err);
+      setLeaks(mockLeaks); // Fallback to mock data on error
+    });
+
+    
+
+  },[])
+
 
   const handleLogout = () => {
     navigate("/municipality-login");
