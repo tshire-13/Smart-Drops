@@ -30,20 +30,10 @@ export const submitForm  = async(req,res)=> {
     }
 
     try{
-          const params = {
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: Date.now() + "-" + req.file.originalname, // unique file name
-      Body: req.file.buffer,
-      ContentType: req.file.mimetype,
-      ACL: "public-read",}
-      const uploadResult = await s3.upload(params).promise()
-
-      image_url = uploadResult.Location
-
         const docRef = doc(db, "users", timestamp)
         await setDoc(docRef, {
             name, email, number, location_description,
-            severity, description, image_url, latitude,
+            severity, description, latitude,
             longitude, timestamp
         })
 
@@ -68,8 +58,10 @@ export const uploadImage  = async(req,res)=> {
       Body: req.file.buffer,
       ContentType: req.file.mimetype,
       ACL: "public-read",}
+
       const uploadResult = await s3.upload(params).promise()
-         res.status(200).json({imageUrl: uploadResult.Location})
+
+         res.status(200).json({image_url: uploadResult.Location})
     }catch(err){
         return res.status(500).json({message: "Server error"})
     }
