@@ -60,7 +60,7 @@ export const submitForm  = async(req,res)=> {
             to: Memail,
              subject: `[ALERT] Leak detected — ${severity || "unknown"}`,
             html:`
-            <h2 style="color:#c62828">🚨 Leak Detected</h2>
+            <h2 style="color:#c62828">Leak Detected</h2>
             <p><b>Location:</b> ${location || "unknown"}</p>
             <p><b>Severity:</b> ${severity || "unknown"}</p>
             <p><b>Time:</b> ${time}</p>
