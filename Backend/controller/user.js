@@ -1,5 +1,5 @@
 import {app} from '../utils/firebase.js'
-import { doc, setDoc, updateDoc, arrayUnion, getFirestore, getDoc } from 'firebase/firestore'
+import { doc, setDoc, updateDoc, getFirestore, getDoc } from 'firebase/firestore'
 import AWS from "aws-sdk";
 import multer from "multer"
 import {Resend} from "resend"
@@ -77,4 +77,21 @@ export const submitForm  = async(req,res)=> {
     }catch(err){
         return res.status(500).json({message: "Server error"})
     }
+}
+
+export const getData = async(req,res)=> {
+    const db = getFirestore(app)
+    const docRef = doc(db, "municipalities")
+   try{
+     const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+        res.status(200).json(docSnap.data())
+    } else {
+        res.status(404).json({message: "No data found"})
+    }
+   }catch(err){
+    return res.status(500).json({message: "Server error "+ err})
+   }
+    
 }
