@@ -14,13 +14,29 @@ const ReportLeak = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     reporterName: "",
-    reporterContact: "",
+    reporterEmail: "",
+    reporterContactNo: "",
     latitude: "",
     longitude: "",
     locationDescription: "",
     severity: "",
     description: "",
   });
+
+type Municipality = {
+  name: string;
+  phone: string;
+  emails: { [key: string]: string };
+};
+  const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
+  const [selected, setSelected] = useState<Municipality | null>(null);
+
+  useEffect(() => {
+    fetch("/rustenburg_municipalities.json") // file in public/
+      .then((res) => res.json())
+      .then((data) => setMunicipalities(data.municipalities));
+      }, []);
+
   const [image, setImage] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
   const [gettingLocation, setGettingLocation] = useState(false);
@@ -138,7 +154,7 @@ const ReportLeak = () => {
     e.preventDefault();
     
     // Basic validation
-    if (!formData.reporterName || !formData.reporterContact || !formData.severity || !formData.description) {
+    if (!formData.reporterName || !formData.reporterEmail || !formData.reporterContactNo || !formData.severity || !formData.description) {
       toast({
         title: "Missing information",
         description: "Please fill in all required fields.",
@@ -196,6 +212,7 @@ const ReportLeak = () => {
                   <Label htmlFor="reporterName">Your Name *</Label>
                   <Input
                     id="reporterName"
+                    name="name"
                     value={formData.reporterName}
                     onChange={(e) =>
                       setFormData({ ...formData, reporterName: e.target.value })
@@ -206,23 +223,39 @@ const ReportLeak = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="reporterContact">Contact (Email or Phone) *</Label>
+                  <Label htmlFor="reporterContact">Contact (Email) *</Label>
                   <Input
                     id="reporterContact"
-                    value={formData.reporterContact}
+                    name="email"
+                    value={formData.reporterEmail}
                     onChange={(e) =>
-                      setFormData({ ...formData, reporterContact: e.target.value })
+                      setFormData({ ...formData, reporterEmail: e.target.value })
                     }
-                    placeholder="john@example.com or 555-0123"
+                    placeholder="johndoe@example.com"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="reporterContact">Contact (Phone) *</Label>
+                  <Input
+                    id="reporterContact"
+                    name="number"
+                    value={formData.reporterContactNo}
+                    onChange={(e) =>
+                      setFormData({ ...formData, reporterContactNo: e.target.value })
+                    }
+                    placeholder="072 4241 5577"
                     required
                   />
                 </div>
               </div>
-
               {/* Location */}
+
               <div className="space-y-4">
                 <div>
                   <Label className="flex items-center gap-2">
+
                     <MapPin className="w-4 h-4" />
                     GPS Coordinates
                   </Label>
@@ -304,6 +337,60 @@ const ReportLeak = () => {
                   required
                 />
               </div>
+              {/* Municipality */}
+              <div>
+                <Label htmlFor="Municipality">Municipality *</Label>
+                <Select
+                  value={formData.severity}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, severity: value })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Municipality" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Municipality">RLM</SelectItem>
+                    
+                  </SelectContent>
+                </Select>
+              </div>
+
+      <div style={{ padding: "20px" }}>
+      <h2>Select Municipality</h2>
+
+      <select
+        onChange={(e) => {
+          const selectedMunicipality = municipalities.find(
+            (m) => m.name === e.target.value
+          );
+          setSelected(selectedMunicipality || null);
+        }}
+      >
+        <option value="">-- Select --</option>
+        {municipalities.map((m) => (
+          <option key={m.name} value={m.name}>
+            {m.name}
+          </option>
+        ))}
+      </select>
+
+      {/* Display */}
+      {selected && (
+        <div style={{ marginTop: "20px", padding: "15px", border: "1px solid #ccc" }}>
+          <h3>{selected.name}</h3>
+          <p>{selected.phone}</p>
+          <ul>
+            {Object.entries(selected.emails).map(([key, value]) => (
+              <li key={key}>
+                 <a href={`mailto:${value}`}>{value}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+
 
               {/* Photo Capture */}
               <div className="space-y-4">

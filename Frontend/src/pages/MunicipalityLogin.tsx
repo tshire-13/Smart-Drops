@@ -43,7 +43,7 @@ const MunicipalityLogin = () => {
               <Droplet className="w-10 h-10 text-primary-foreground" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold">LeakWatch</h1>
+          <h1 className="text-3xl font-bold">Smart Drop</h1>
           <p className="text-muted-foreground mt-2">Municipality Portal</p>
         </div>
 
