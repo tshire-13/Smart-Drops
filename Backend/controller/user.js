@@ -52,8 +52,7 @@ export const submitForm  = async(req,res)=> {
 
 export const uploadImage  = async(req,res)=> {
     try{
-        console.log(process.env.AWS_BUCKET_NAME)
-          const params = {
+     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: Date.now() + "-" + req.file.originalname, // unique file name
       Body: req.file.buffer,
