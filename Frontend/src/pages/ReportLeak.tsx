@@ -174,6 +174,7 @@ type Municipality = {
 
     // In production, this would send to backend
     console.log("Form submitted:", { ...formData, image });
+    console.log("Submitting form with data:", formData
     
     toast({
       title: "Report submitted!",
@@ -314,14 +315,15 @@ type Municipality = {
                   onValueChange={(value) =>
                     setFormData({ ...formData, severity: value })
                   }
+                  
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select severity level" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="High">🔴 High - Major leak</SelectItem>
-                    <SelectItem value="Medium">🟠 Medium - Moderate leak</SelectItem>
-                    <SelectItem value="Low">🟡 Low - Minor leak</SelectItem>
+                    <SelectItem value="High"> High - Major leak</SelectItem>
+                    <SelectItem value="Medium"> Medium - Moderate leak</SelectItem>
+                    <SelectItem value="Low"> Low - Minor leak</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -341,26 +343,8 @@ type Municipality = {
                   required
                 />
               </div>
-              {/* Municipality */}
-              {/* <div>
-                <Label htmlFor="Municipality">Municipality *</Label>
-                <Select
-                  value={formData.severity}
-                  name="municipality"
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, severity: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Municipality" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Rustenburg Local Municipality">Rustenburg Local Municipality</SelectItem>
-                    
-                  </SelectContent>
-                </Select>
-              </div> */}
 
+              {/* Municipality */}
       <div style={{ padding: "20px" }}>
       <Label htmlFor="Municipality">Municipality *</Label> <br />
       <select
