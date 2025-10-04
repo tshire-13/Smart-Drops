@@ -342,7 +342,7 @@ type Municipality = {
                 />
               </div>
               {/* Municipality */}
-              <div>
+              {/* <div>
                 <Label htmlFor="Municipality">Municipality *</Label>
                 <Select
                   value={formData.severity}
@@ -355,16 +355,16 @@ type Municipality = {
                     <SelectValue placeholder="Municipality" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Municipality">RLM</SelectItem>
+                    <SelectItem value="Rustenburg Local Municipality">Rustenburg Local Municipality</SelectItem>
                     
                   </SelectContent>
                 </Select>
-              </div>
+              </div> */}
 
       <div style={{ padding: "20px" }}>
-      <h2>Select Municipality</h2>
-
+      <Label htmlFor="Municipality">Municipality *</Label> <br />
       <select
+      name="municipality"
         onChange={(e) => {
           const selectedMunicipality = municipalities.find(
             (m) => m.name === e.target.value
