@@ -9,3 +9,5 @@ const firebaseConfig = {
   messagingSenderId: process.env.MESSAGING_SENDER_ID,
   appId: process.env.APP_ID
 }
+
+export default app = initializeApp(firebaseConfig)
