@@ -79,14 +79,14 @@ export const submitForm  = async(req,res)=> {
 
           const { data, error } = await resend.emails.send({
             from: 'Acme <onboarding@resend.dev>',
-            to: Memail,
+            to: "eltalk30@gmail.com",
              subject: `[ALERT] Leak detected — ${severity || "unknown"}`,
             html:`
             <h2 style="color:#c62828">Leak Detected</h2>
-            <p><b>Location:</b> ${location || "unknown"}</p>
+            <p><b>Location:</b> ${locationDescription || "unknown"}</p>
             <p><b>Severity:</b> ${severity || "unknown"}</p>
-            <p><b>Time:</b> ${time}</p>
-            <p><b>Details:</b> ${details || "N/A"}</p>
+            <p><b>Time:</b> ${timestamp}</p>
+            <p><b>Details:</b> ${description || "N/A"}</p>
       `
         })
         if (error) {
@@ -97,7 +97,7 @@ export const submitForm  = async(req,res)=> {
        res.status(200).json({message: "Form submitted successfully"})
 
     }catch(err){
-        return res.status(500).json({message: "Server error"})
+        return res.status(500).json({message: "Server error " + err})
     }
 }
 
