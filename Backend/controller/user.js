@@ -9,7 +9,7 @@ export const submitForm  = async(req,res)=> {
 
     const {name, email, number, location_description, 
         severity, description, image_url, latitude, longitude, 
-        province, pname, pemail, pnumber
+        municipality, Memail, Mnumber
     } = req.body
 
 
@@ -26,9 +26,9 @@ export const submitForm  = async(req,res)=> {
         })
 
         await setDoc(doc(db, "municipalities", timestamp), {
-            name: province,
-            email: pemail,
-            contact: pnumber
+            name: municipality,
+            email: Memail,
+            phone: Mnumber
         }, {merge: true})
 
 
