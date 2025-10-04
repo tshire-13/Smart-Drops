@@ -8,4 +8,15 @@ const submitForm  = async(req,res)=> {
     const {name, email, number, location_description, 
         severity, description, image_url, latitude, longitude, 
     } = req.body
+
+
+    if(!name || !email || !number || !location_description || !severity || !description || !image_url || !latitude || !longitude){
+        return res.status(400).json({message: "All fields are required"})
+    }
+
+    try{
+
+    }catch(err){
+        return res.status(500).json({message: "Server error"})
+    }
 }
