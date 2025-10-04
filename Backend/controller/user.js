@@ -55,6 +55,21 @@ export const submitForm  = async(req,res)=> {
             phone: Mnumber
         }, {merge: true})
 
+
+          const { data, error } = await resend.emails.send({
+            from: 'Acme <onboarding@resend.dev>',
+            to: Memail,
+             subject: `[ALERT] Leak detected — ${severity || "unknown"}`,
+            html:`
+            <h2 style="color:#c62828">🚨 Leak Detected</h2>
+            <p><b>Location:</b> ${location || "unknown"}</p>
+            <p><b>Severity:</b> ${severity || "unknown"}</p>
+            <p><b>Time:</b> ${time}</p>
+            <p><b>Details:</b> ${details || "N/A"}</p>
+      `
+        })
+
+
        res.status(200).json({message: "Form submitted successfully"})
 
     }catch(err){
