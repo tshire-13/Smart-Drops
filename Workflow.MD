@@ -45,19 +45,37 @@ Municipality receives a report (as before), but now:
 
 ### 2. Fields to save on database
 1. #### User form
-##### Field Name--------------------- Type ------------------------------Description
-- reporter_name-------------------String -----------------------------Name of the person reporting
-- reporter_contact----------------String ----------------------------Email or phone number(for follow-up)
-- latitude------------------------Float -------------------------------GPS latitude from device
-- longitude-------------------------Float --------------------------------GPS longitude from device
-- Field Name------------------------Type----------------------------------Description	
-- reporter_name--------------------String--------------------------------Name of the person reporting
-- location_description------------String---------------------------------Nearby landmark or address
+##### Field Name--------------------- Type -----------------------Description
+- reporter_name-------------------String ---------------------Name of the person reporting
+- reporter_contact----------------String --------------------Email or phone number(for follow-up)
+- latitude------------------------Float --------------------------GPS latitude from device
+- longitude-------------------------Float --------------------------GPS longitude from device
+- Field Name------------------------Type---------------------------Description	
+- reporter_name--------------------String--------------------------Name of the person reporting
+- location_description------------String--------------------------Nearby landmark or address
 - severity------------------------Enum----------------------------------e.g. Low / Medium / High
 - description------------------String------------------------------------Text field with more details
-image_url	String	Link to uploaded image on S3
-timestamp	DateTime	When the report was submitted
-municipality_id	String	Foreign key from municipality table
+- image_url--------------------Array-----------------------------------Link to uploaded image on S3
+- timestamp-------------------DateTime----------------------------------When the report was submitted
+- municipality_id----------------String----------------------------------Foreign key from municipality table
+
+2. #### Municipality table
+##### Field Name-------------------Type-------------Description
+- municipality_id-------------------String------------Unique identifier (e.g. demarcation code)
+- name----------------------------String-------------Name of the municipality (e.g. eThekwini)
+- province---------------------String------------------Province name
+- email_alert--------------------String-------------Email address of official contact
+- phone --------------------------String--------------Contact number
+
+3. #### Image Metadata
+##### Field Name----------------Type------------------Description
+- image_id------------------------String --------------UUID or filename
+- report_id----------------------String-------------Foreign key to leak report
+- s3_url-------------------------String--------------URL of the image on S3
+- upload_time--------------------DateTime-------------Timestamp 
+- content_type-------------------String--------------image/jpeg or image/png
+
+
 
 
 # Overall Picture 
