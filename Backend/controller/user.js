@@ -101,10 +101,18 @@ export const getData = async(req,res)=> {
     .map((user) => {
       const municipality = municipalities.find(
         (mun) => mun.id === user.timestamp
-      );
+      )
+      // Name of reporter
+      // Location description
+      // Severity
+      // Reported date
+
       return {
-        municipalityName: municipality?.name,
-        municipalityData: municipality,
+        name: user.name,
+        location_description: user.location_description,
+        severity: user.severity,
+        timestamp: user.timestamp,
+        
       }
     })
     return res.status(200).json(joinedData)
