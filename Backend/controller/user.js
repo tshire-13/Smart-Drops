@@ -1,6 +1,8 @@
 import {app} from '../utils/firebase.js'
 import { doc, setDoc, updateDoc, arrayUnion, getFirestore, getDoc } from 'firebase/firestore'
 import multer from "multer"
+import multerS3 from 'multer-s3'
+import s3Client from '../utils/aws.js'
 
 export const submitForm  = async(req,res)=> {
 
