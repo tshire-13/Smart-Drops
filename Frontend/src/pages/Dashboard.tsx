@@ -20,7 +20,7 @@ const mockLeaks: Leak[] = [
     locationDescription: "Corner of Main St and Oak Ave",
     severity: "High",
     description: "Large water main break, significant flow",
-    imageUrl: "https://smart--drop.s3.eu-north-1.amazonaws.com/1759591555951-download.png",
+    imageUrl: "https://th.bing.com/th/id/OIP.RLImIZoTF8pz5ttwANQbMgHaEK?w=305&h=184&c=7&r=0&o=7&cb=12&dpr=1.3&pid=1.7&rm=3",
     timestamp: "2025-01-15T10:30:00Z",
     status: "Active",
   },
