@@ -240,6 +240,7 @@ const ReportLeak = () => {
 
   return (
     <div className="min-h-screen bg-background py-8 px-4">
+      {loading && loader()}
       <div className="max-w-2xl mx-auto">
         <Button
           variant="ghost"
