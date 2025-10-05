@@ -188,6 +188,7 @@ const ReportLeak = () => {
 
     try {
       const formToSend = new FormData();
+      setLoading(true)
 
       // Append text fields
       Object.entries(formData).forEach(([key, value]) => {
@@ -232,6 +233,8 @@ const ReportLeak = () => {
         description: error.message || "Something went wrong",
         variant: "destructive",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
