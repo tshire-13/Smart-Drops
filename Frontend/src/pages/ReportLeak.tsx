@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Camera, MapPin, Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import loader from "@/lib/loader";
 
 const ReportLeak = () => {
   const navigate = useNavigate();
