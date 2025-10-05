@@ -87,7 +87,7 @@ const Landing = () => {
 
       {/* Features Section */}
       <section className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
+        <h2 className="text-3xl font-bold text-center mb-12">How We Work</h2>
         <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
           <Card>
             <CardHeader>
