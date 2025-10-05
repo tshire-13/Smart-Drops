@@ -32,6 +32,7 @@ const ReportLeak = () => {
 
   const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
   const [selected, setSelected] = useState<Municipality | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const [image, setImage] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
