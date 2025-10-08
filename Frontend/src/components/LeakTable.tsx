@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { CheckCircle2, ExternalLink } from "lucide-react";
+import { CheckCircle2, ExternalLink, Trash } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -120,7 +120,7 @@ const LeakTable = ({ leaks, onMarkFixed }: LeakTableProps) => {
                       size="sm"
                       onClick={() => onMarkFixed(leak.id)}
                     >
-                      <CheckCircle2 className="w-4 h-4 mr-1" />
+                      <Trash className="w-4 h-4 mr-1" />
                       Fixed
                     </Button>
                   </TableCell>

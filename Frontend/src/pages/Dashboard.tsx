@@ -54,20 +54,21 @@ const mockLeaks: Leak[] = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [leaks, setLeaks] = useState([]);
+  const [leaks, setLeaks] = useState(mockLeaks);
 
-  useEffect(()=> {
-    const response = fetch("http://localhost:2025/api/data")
-    .then(res => res.json())
-    .then(data => setLeaks(data))
-    .catch(err => {
-      console.error("Error fetching leaks:", err);
-      setLeaks(mockLeaks); // Fallback to mock data on error
-    });
+  // useEffect(()=> {
+  //   const response = fetch("http://localhost:2025/api/data")
+  //   .then(res => res.json())
+  //   .then(data => setLeaks(data))
+  //   .catch(err => {
+  //     console.error("Error fetching leaks:", err);
+  //     setLeaks(mockLeaks); // Fallback to mock data on error
+  //     console.log("Fetched data:", response);
+  //   });
 
     
 
-  },[])
+  // },[])
 
 
   const handleLogout = () => {
@@ -95,7 +96,7 @@ const Dashboard = () => {
               <Droplet className="w-6 h-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">LeakWatch</h1>
+              <h1 className="text-2xl font-bold">Smart Drop</h1>
               <p className="text-sm text-muted-foreground">Municipality Dashboard</p>
             </div>
           </div>
